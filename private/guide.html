@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Amari Fitness Blueprint — Full guide</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0b0a">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
+  <style>
+    /* ---------- guide layout ---------- */
+    .progress { position: fixed; top: 0; left: 0; height: 2px; width: 100%; z-index: 60; background: transparent; }
+    .progress > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.15s linear; }
+
+    .guide-top {
+      position: sticky; top: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 14px 24px;
+      background: rgba(11, 11, 10, 0.72);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    .guide-top .brand { font-family: var(--font-serif); font-size: 20px; }
+    .guide-top .brand em { color: var(--muted); }
+    .guide-top .right { display: flex; align-items: center; gap: 14px; }
+    .guide-top .menu-btn { display: none; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 60px;
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 56px 0 120px;
+    }
+
+    .toc { position: sticky; top: 92px; align-self: start; display: flex; flex-direction: column; gap: 4px; }
+    .toc .mono { margin-bottom: 10px; padding-left: 14px; }
+    .toc a {
+      display: flex; gap: 12px; align-items: baseline;
+      padding: 9px 14px; border-radius: 10px;
+      color: var(--ink-2); font-size: 14px; line-height: 1.3;
+      transition: background 0.3s, color 0.3s;
+    }
+    .toc a .n { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+    .toc a:hover { color: var(--ink); background: rgba(255,255,255,0.03); }
+    .toc a.active { color: var(--ink); background: var(--glass); }
+    .toc a.active .n { color: var(--accent); }
+
+    .content { max-width: 720px; }
+
+    .chapter { padding: 20px 0 80px; border-bottom: 1px solid var(--line); margin-bottom: 60px; scroll-margin-top: 90px; }
+    .chapter:last-of-type { border-bottom: 0; }
+    .chapter > .mono { display: block; margin-bottom: 16px; }
+    .chapter h2 { font-family: var(--font-serif); font-size: clamp(38px, 5vw, 56px); letter-spacing: -0.02em; margin-bottom: 26px; }
+    .chapter h3 { font-family: var(--font-serif); font-size: 29px; margin: 48px 0 14px; letter-spacing: -0.01em; }
+    .chapter h4 { font-size: 17px; font-weight: 600; margin: 30px 0 10px; }
+    .chapter p, .chapter li { color: var(--ink-2); font-size: 17px; line-height: 1.7; }
+    .chapter p strong, .chapter li strong { color: var(--ink); font-weight: 500; }
+    .chapter ul, .chapter ol { padding-left: 22px; margin: 0 0 1.2em; }
+    .chapter li { margin-bottom: 8px; }
+    .lead { font-size: 21px !important; color: var(--ink) !important; line-height: 1.55 !important; }
+
+    .callout { padding: 22px 26px; border-radius: 16px; margin: 28px 0; border-left: 2px solid var(--accent); }
+    .callout p { margin: 0; color: var(--ink); }
+    .callout .mono { display: block; margin-bottom: 8px; color: var(--accent); }
+    .callout.warn { border-left-color: var(--warm); }
+    .callout.warn .mono { color: var(--warm); }
+
+    .quote { font-family: var(--font-serif); font-size: 30px; line-height: 1.25; color: var(--ink); margin: 40px 0; padding-left: 26px; border-left: 1px solid var(--line-strong); letter-spacing: -0.01em; }
+
+    table { width: 100%; border-collapse: collapse; margin: 18px 0 28px; font-size: 15px; }
+    th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+    td { color: var(--ink-2); }
+    td:first-child { color: var(--ink); white-space: nowrap; }
+    tr.off td { color: var(--muted); }
+    .tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    .split { padding: 28px 30px; border-radius: 18px; margin: 24px 0; }
+    .split .head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; flex-wrap: wrap; margin-bottom: 8px; }
+    .split .head h3 { margin: 0; }
+    .split .fit { color: var(--ink-2); font-size: 15.5px; margin: 10px 0 0; }
+    .split .fit strong { color: var(--accent); font-weight: 500; }
+    .split table { margin-bottom: 4px; }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0 28px; }
+    .mini { padding: 22px 24px; border-radius: 16px; }
+    .mini .mono { display: block; margin-bottom: 8px; }
+    .mini p { margin: 0; font-size: 15.5px; }
+    .mini h4 { margin: 0 0 8px; }
+
+    /* calculator */
+    .calc { padding: 30px 32px; border-radius: 20px; margin: 30px 0; }
+    .calc .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+    .calc label { display: flex; flex-direction: column; gap: 8px; }
+    .calc label .mono { font-size: 11px; }
+    .calc .out { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .calc .cell { padding: 18px 18px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line); }
+    .calc .cell .v { font-family: var(--font-serif); font-size: 32px; line-height: 1; color: var(--ink); display: block; margin-bottom: 6px; transition: opacity 0.3s; }
+    .calc .cell .v.flash { opacity: 0.4; }
+    .calc .cell .mono { font-size: 10.5px; }
+    .calc .note { margin: 18px 0 0; font-size: 14px; color: var(--muted); }
+    .calc select.field { appearance: none; -webkit-appearance: none; }
+
+    .tips { counter-reset: tip; list-style: none; padding: 0; margin: 0; }
+    .tips li { counter-increment: tip; padding: 22px 0 22px 64px; border-bottom: 1px solid var(--line); position: relative; }
+    .tips li::before { content: counter(tip, decimal-leading-zero); position: absolute; left: 0; top: 24px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; color: var(--accent); }
+    .tips li h4 { margin: 0 0 6px; font-family: var(--font-serif); font-weight: 400; font-size: 24px; }
+    .tips li p { margin: 0; }
+
+    .week { padding: 24px 26px; border-radius: 16px; margin: 14px 0; }
+    .week .mono { display: block; margin-bottom: 6px; color: var(--accent); }
+    .week h4 { margin: 0 0 8px; font-family: var(--font-serif); font-weight: 400; font-size: 24px; }
+    .week p { margin: 0; font-size: 15.5px; }
+
+    .end { text-align: center; padding: 60px 0 20px; }
+    .end h2 { font-family: var(--font-serif); font-size: clamp(36px, 5vw, 56px); margin-bottom: 14px; }
+    .end p { color: var(--ink-2); }
+
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; gap: 0; padding-top: 30px; width: calc(100% - 32px); }
+      .toc { position: fixed; inset: 0; top: 0; z-index: 70; background: rgba(11,11,10,0.96); padding: 90px 24px 40px; overflow-y: auto; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); }
+      .toc.open { opacity: 1; transform: none; pointer-events: auto; }
+      .guide-top .menu-btn { display: inline-flex; }
+      .guide-top .brand em { display: none; }
+      .grid2, .calc .row { grid-template-columns: 1fr; }
+      .calc .out { grid-template-columns: 1fr; }
+      .calc { padding: 24px 20px; }
+      .split { padding: 22px 20px; }
+      .tips li { padding-left: 44px; }
+      .quote { font-size: 25px; }
+    }
+
+    @media print {
+      .atmosphere, .guide-top, .toc, .progress { display: none !important; }
+      body { background: #fff; color: #000; }
+      .chapter p, .chapter li, td { color: #222; }
+      .glass { background: none; border: 1px solid #ddd; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div class="atmosphere" aria-hidden="true"><div class="glow a"></div><div class="glow b"></div><div class="glow c"></div><div class="grain"></div></div>
+
+<header class="guide-top">
+  <a class="brand" href="/">Amari <em>/ Blueprint</em></a>
+  <div class="right">
+    <span class="mono" id="reading" aria-live="polite">Start here</span>
+    <button class="btn small menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="toc">Chapters</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <nav class="toc" id="toc" aria-label="Chapters">
+    <span class="mono">Chapters</span>
+    <a href="#start"><span class="n">00</span>Start here</a>
+    <a href="#splits"><span class="n">01</span>Training splits</a>
+    <a href="#session"><span class="n">02</span>How to run a session</a>
+    <a href="#diet"><span class="n">03</span>Diet structures</a>
+    <a href="#meals"><span class="n">04</span>What I eat</a>
+    <a href="#supplements"><span class="n">05</span>Supplements</a>
+    <a href="#mindset"><span class="n">06</span>Mindset progression</a>
+    <a href="#cardio"><span class="n">07</span>Cardio, steps &amp; recovery</a>
+    <a href="#wish"><span class="n">08</span>What I wish I knew</a>
+    <a href="#twelve"><span class="n">09</span>Your first 12 weeks</a>
+  </nav>
+
+  <main class="content">
+
+    <!-- ================= 00 START ================= -->
+    <article class="chapter" id="start" data-title="Start here">
+      <span class="mono">Chapter 00</span>
+      <h2>Start <em class="italic accent">here.</em></h2>
+
+      <p class="lead">In 2021 I weighed 125 pounds. I was skinny, I had little to no muscle, and I had abs only because there was nothing covering them. In 2026 I weigh 185. I did it with no supplements, no steroids, no peptides, and no caffeine. This is everything I learned on the way.</p>
+
+      <p>I'm not a coach and this isn't a textbook. It's the conversation I'd have with you if you asked me at the gym how I did it, written down so you can come back to it. Some of this is science. Some of it is six years of trial and error. I'll tell you which is which.</p>
+
+      <h3>The three things that actually changed my body</h3>
+      <ol>
+        <li><strong>Nutrition.</strong> The number one thing. I started prioritizing red meat: steak, ground beef, all of it. I eat a lot of it and I get my protein and creatine from the plate. Everything else in this guide is secondary to this.</li>
+        <li><strong>Lower reps, heavier weight.</strong> I spent months doing sets of 12, 15, 20. When I dropped to 3–8 reps and started going to failure I found out I was a lot stronger than I thought. Muscle followed strength.</li>
+        <li><strong>Removing the thing that was draining me.</strong> My biggest roadblock was porn. It was taking my attention, my energy and my self-respect. Cutting it out is what made consistency possible. Chapter 06 is honest about it.</li>
+      </ol>
+
+      <h3>How to use this guide</h3>
+      <p>Read Chapter 01 and 02 and pick a split. Read Chapter 03, run the calculator, and set your protein and fat. Then go train. Don't try to do all ten chapters at once. The guide will be here. The hard part is Monday, and then the Monday after that.</p>
+
+      <div class="callout glass warn">
+        <span class="mono">Before you start</span>
+        <p>This is my experience and general information, not medical advice. If you have a health condition, an injury, or you're under 18, talk to a doctor before changing how you train or eat.</p>
+      </div>
+    </article>
+
+    <!-- ================= 01 SPLITS ================= -->
+    <article class="chapter" id="splits" data-title="Training splits">
+      <span class="mono">Chapter 01</span>
+      <h2>Training splits, <em class="italic">science-backed.</em></h2>
+
+      <p class="lead">A split is just how you divide your muscles across the week. The research is pretty clear on the part that matters: hitting a muscle twice a week beats once a week for growth, as long as total work is similar. So every split below hits everything at least twice.</p>
+
+      <p>I trained each muscle once a week for a long time. Chest Monday, back Tuesday, the classic bro split. I got somewhere, then I stopped getting anywhere for a couple of years. Moving to twice a week per muscle changed my size and strength more than anything else I did in the gym.</p>
+
+      <h3>How to pick one</h3>
+      <p>Pick by how many days you can <em>actually</em> train, not how many you wish you could. A four-day split you never miss beats a six-day split you do half of.</p>
+
+      <div class="tablewrap">
+      <table>
+        <thead><tr><th>Days you can train</th><th>Use this split</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>2–3</td><td>Full body</td><td>Every muscle 2–3× with the least days</td></tr>
+          <tr><td>4</td><td>Upper / Lower repeat</td><td>Clean 2× frequency, lots of recovery</td></tr>
+          <tr><td>5</td><td>PPL × Upper / Lower</td><td>My favorite. Volume plus frequency</td></tr>
+          <tr><td>6</td><td>PPL × Arnold, or Arnold</td><td>For when training is a priority and recovery is handled</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <!-- PPL x UL -->
+      <div class="split glass">
+        <div class="head">
+          <h3>PPL × Upper / Lower</h3>
+          <span class="mono">5 days</span>
+        </div>
+        <p class="fit"><strong>Best for:</strong> five days a week. This is the one I'd hand most people. Push, pull and legs give you focused days, then upper and lower hit everything a second time with slightly less volume.</p>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td>Mon</td><td>Push</td><td>Chest, shoulders, triceps. Bench heavy.</td></tr>
+            <tr><td>Tue</td><td>Pull</td><td>Back, rear delts, biceps. Row or deadlift heavy.</td></tr>
+            <tr><td>Wed</td><td>Legs</td><td>Quads, hamstrings, glutes, calves. Squat heavy.</td></tr>
+            <tr><td>Thu</td><td>Upper</td><td>Whole upper body, moderate weight, more volume.</td></tr>
+            <tr><td>Fri</td><td>Lower</td><td>Whole lower body. Deadlift or RDL heavy if you didn't Tuesday.</td></tr>
+            <tr class="off"><td>Sat</td><td>Off / walk</td><td>Steps, sprints if you're feeling it.</td></tr>
+            <tr class="off"><td>Sun</td><td>Off / walk</td><td>Steps.</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- Arnold -->
+      <div class="split glass">
+        <div class="head">
+          <h3>The Arnold split</h3>
+          <span class="mono">6 days</span>
+        </div>
+        <p class="fit"><strong>Best for:</strong> six days a week, with recovery dialed in. Chest and back together is a lot of work in one session and the pump is unreal. You'll hit everything twice.</p>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td>Mon</td><td>Chest + Back</td><td>Superset pressing and pulling. Bench, rows, pull-ups.</td></tr>
+            <tr><td>Tue</td><td>Shoulders + Arms</td><td>Overhead press, lateral raises, biceps and triceps.</td></tr>
+            <tr><td>Wed</td><td>Legs</td><td>Squat, RDL, lunges, calves.</td></tr>
+            <tr><td>Thu</td><td>Chest + Back</td><td>Change the angles: incline, dips, cable rows.</td></tr>
+            <tr><td>Fri</td><td>Shoulders + Arms</td><td>Dumbbell press, rear delts, arm volume.</td></tr>
+            <tr><td>Sat</td><td>Legs</td><td>Leg press, hamstring curls, hip hinge.</td></tr>
+            <tr class="off"><td>Sun</td><td>Off / walk</td><td>Steps.</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- PPL x Arnold -->
+      <div class="split glass">
+        <div class="head">
+          <h3>PPL × Arnold</h3>
+          <span class="mono">6 days</span>
+        </div>
+        <p class="fit"><strong>Best for:</strong> six days when you want the structure of PPL but hate doing the same three sessions twice. Half the week is push/pull/legs, the other half is Arnold-style. Everything gets hit twice from two different angles.</p>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td>Mon</td><td>Push</td><td>Bench heavy, overhead press, triceps.</td></tr>
+            <tr><td>Tue</td><td>Pull</td><td>Deadlift or heavy row, pull-ups, biceps.</td></tr>
+            <tr><td>Wed</td><td>Legs</td><td>Squat heavy, hamstrings, calves.</td></tr>
+            <tr><td>Thu</td><td>Chest + Back</td><td>Incline, dips, cable rows, supersets.</td></tr>
+            <tr><td>Fri</td><td>Shoulders + Arms</td><td>Dumbbell press, laterals, rear delts, arms.</td></tr>
+            <tr><td>Sat</td><td>Legs</td><td>Leg press, RDL, lunges, calves.</td></tr>
+            <tr class="off"><td>Sun</td><td>Off / walk</td><td>Steps.</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- Upper / Lower -->
+      <div class="split glass">
+        <div class="head">
+          <h3>Upper / Lower repeat</h3>
+          <span class="mono">4 days</span>
+        </div>
+        <p class="fit"><strong>Best for:</strong> four days, busy life, and people who like to go heavy. Lots of recovery between sessions so your big lifts keep climbing.</p>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td>Mon</td><td>Upper A</td><td>Bench heavy, rows, overhead press, pull-ups.</td></tr>
+            <tr><td>Tue</td><td>Lower A</td><td>Squat heavy, RDL, calves.</td></tr>
+            <tr class="off"><td>Wed</td><td>Off / walk</td><td>Steps.</td></tr>
+            <tr><td>Thu</td><td>Upper B</td><td>Incline heavy, weighted chin-ups, dips, arms.</td></tr>
+            <tr><td>Fri</td><td>Lower B</td><td>Deadlift heavy, leg press, lunges, hamstring curls.</td></tr>
+            <tr class="off"><td>Sat</td><td>Off / walk</td><td>Steps, sprints.</td></tr>
+            <tr class="off"><td>Sun</td><td>Off / walk</td><td>Steps.</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- Full body -->
+      <div class="split glass">
+        <div class="head">
+          <h3>Full body, 2–3× a week</h3>
+          <span class="mono">2–3 days</span>
+        </div>
+        <p class="fit"><strong>Best for:</strong> beginners, and anyone with two or three days. Every session has a squat, a hinge, a push and a pull. You'll get strong fast because you practice the main lifts every time.</p>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td>Mon</td><td>Full body A</td><td>Squat, bench, row, plus one arm or shoulder move.</td></tr>
+            <tr class="off"><td>Tue</td><td>Off / walk</td><td>Steps.</td></tr>
+            <tr><td>Wed</td><td>Full body B</td><td>Deadlift, overhead press, pull-ups, plus calves or core.</td></tr>
+            <tr class="off"><td>Thu</td><td>Off / walk</td><td>Steps.</td></tr>
+            <tr><td>Fri</td><td>Full body C</td><td>Front squat or leg press, incline, chest-supported row, arms.</td></tr>
+            <tr class="off"><td>Sat</td><td>Off / walk</td><td>Steps, sprints.</td></tr>
+            <tr class="off"><td>Sun</td><td>Off</td><td>Rest.</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="callout glass">
+        <span class="mono">The rule under all of them</span>
+        <p>Every muscle at least twice a week. Heaviest lift first, volume after. Keep the split for at least 12 weeks before you judge it.</p>
+      </div>
+    </article>
+
+    <!-- ================= 02 SESSION ================= -->
+    <article class="chapter" id="session" data-title="How to run a session">
+      <span class="mono">Chapter 02</span>
+      <h2>How to run <em class="italic accent">a session.</em></h2>
+
+      <p class="lead">The split tells you what day it is. This chapter is what you do when you walk in. Same warm-up, heaviest lift first, 3–8 reps on the things that matter, then volume.</p>
+
+      <h3>Warm up the same way every time</h3>
+      <p>Since high school football I've warmed up the same way on leg and athletic days, and I'm not changing it. Routine is the point. When the warm-up is automatic, you never skip it, and you walk up to the bar already switched on.</p>
+      <ul>
+        <li><strong>5 minutes of movement.</strong> Walk, bike, or jump rope. You're raising body temperature, not getting a workout.</li>
+        <li><strong>Dynamic work.</strong> Leg swings, hip openers, walking lunges, high knees, arm circles. Two or three rounds, nothing static.</li>
+        <li><strong>Ramp-up sets.</strong> On your first lift: empty bar, then 50%, 70%, 85% of your working weight for a few reps each. Then the real sets.</li>
+      </ul>
+
+      <h3>The core lifts</h3>
+      <p>These are the lifts that built me, and they're the ones you should get strong on before you worry about anything else. Every session is built around one or two of them.</p>
+      <div class="tablewrap">
+      <table>
+        <thead><tr><th>Lift</th><th>Builds</th><th>My notes</th></tr></thead>
+        <tbody>
+          <tr><td>Squat</td><td>Quads, glutes, core, everything</td><td>Depth over weight. If it's not at least parallel it doesn't count.</td></tr>
+          <tr><td>Deadlift / RDL</td><td>Back, hamstrings, glutes, grip</td><td>Deadlift heavy once a week. RDLs the other day for hamstrings.</td></tr>
+          <tr><td>Bench press</td><td>Chest, shoulders, triceps</td><td>Feet planted, shoulder blades back. Touch the chest every rep.</td></tr>
+          <tr><td>Overhead press</td><td>Shoulders, triceps, core</td><td>Standing. Squeeze your glutes so you don't lean back.</td></tr>
+          <tr><td>Barbell row</td><td>Back thickness, biceps</td><td>Pull to your stomach, not your chest. No yanking.</td></tr>
+          <tr><td>Pull-up / chin-up</td><td>Back width, biceps</td><td>Add weight once you can do 8 clean. Full hang at the bottom.</td></tr>
+          <tr><td>Dips</td><td>Chest, triceps</td><td>Lean forward for chest, stay upright for triceps.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>The rep range nobody in the gym will tell you</h3>
+      <p>Ten-plus reps is too much for the lifts that matter. If you want muscle <em>and</em> strength, your main work is <strong>3–8 reps</strong>. I spent months in the 12–20 range feeling a pump and going nowhere. When I lowered the reps and raised the weight, my body changed.</p>
+      <div class="grid2">
+        <div class="mini glass">
+          <span class="mono">Main lift</span>
+          <h4>3–5 reps</h4>
+          <p>Your heaviest lift of the day, first. 3–5 working sets. This is where strength comes from.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Secondary lifts</span>
+          <h4>5–8 reps</h4>
+          <p>The next one or two compound moves. 3 sets each. Still heavy, slightly more reps.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Isolation</span>
+          <h4>6–10 reps</h4>
+          <p>Curls, laterals, calves, extensions. 2–3 sets. This is the "volume" part of the session.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Going to failure</span>
+          <h4>Last set only</h4>
+          <p>Take the final set of your main and secondary lifts to failure, or one rep shy. Leave the rest in the tank.</p>
+        </div>
+      </div>
+
+      <h3>Heaviest first, volume after</h3>
+      <p>Start every session with the heaviest, most demanding lift while you're fresh. Then move to the secondary lifts, then the isolation work. By the end you're doing volume with lighter loads and the hard part is already done. Doing it the other way around, tiring yourself out on curls and then trying to squat, is how you get hurt and go backwards.</p>
+
+      <h3>Form over weight. Always.</h3>
+      <p>Without proper form you can't actually target the muscle, and you will hurt yourself. I'm not saying lift light forever. I'm saying perfect the movement first, then add weight progressively. Film your sets. If the last rep looks nothing like the first, the weight is too heavy for today.</p>
+
+      <h3>You are stronger than you think</h3>
+      <p>I was doing high weight for high reps and I thought that was my ceiling. When I increased the weight and pushed a set to actual failure, I realized I had way more in me. I'd been limiting myself for months. Once a week, on your main lift, find out where failure really is. It's usually further than you think.</p>
+
+      <h3>Progression, kept simple</h3>
+      <ol>
+        <li>Pick a weight you can do for the bottom of the rep range (say 5 reps on a 5–8 lift) with clean form.</li>
+        <li>Each week, add a rep per set until you hit the top of the range (8).</li>
+        <li>When you hit the top on every set, add weight (5 lb upper body, 10 lb lower) and go back to the bottom.</li>
+        <li>Stalled for three weeks? Drop the weight 10% and climb again. That's normal.</li>
+      </ol>
+
+      <div class="callout glass">
+        <span class="mono">A session, start to finish</span>
+        <p>Warm-up (10 min) → Main lift, 4 × 3–5 → Secondary lift, 3 × 5–8 → Secondary lift, 3 × 5–8 → Two isolation moves, 2–3 × 6–10 → Walk out. Sixty to seventy-five minutes.</p>
+      </div>
+    </article>
+
+    <!-- ================= 03 DIET ================= -->
+    <article class="chapter" id="diet" data-title="Diet structures">
+      <span class="mono">Chapter 03</span>
+      <h2>Diet <em class="italic">structures.</em></h2>
+
+      <p class="lead">Nutrition was the number one thing I changed and it's the number one thing I'd tell you to change. Here's how I set up protein, fat and carbs, how I bulk without losing my abs, how I cut, and how carb cycling fits in.</p>
+
+      <h3>The numbers</h3>
+      <div class="tablewrap">
+      <table>
+        <thead><tr><th>Macro</th><th>Target</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Protein</td><td>0.8–1 g per lb of bodyweight</td><td>Every day, no matter the phase. Mostly from red meat and eggs.</td></tr>
+          <tr><td>Fat</td><td>0.3–0.5 g per lb of bodyweight</td><td>Lower end when cutting, higher end when gaining.</td></tr>
+          <tr><td>Carbs</td><td>50–100 g fast-digesting, 30–60 min before training</td><td>This is my pre-workout. Fill the rest of the day with carbs too.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <!-- CALCULATOR -->
+      <div class="calc glass" id="calc">
+        <span class="mono" style="display:block;margin-bottom:16px">Macro calculator</span>
+        <div class="row">
+          <label>
+            <span class="mono">Bodyweight (lbs)</span>
+            <input class="field" type="number" id="bw" min="80" max="400" step="1" value="150" inputmode="numeric">
+          </label>
+          <label>
+            <span class="mono">Phase</span>
+            <select class="field" id="phase">
+              <option value="gain">Lean bulk</option>
+              <option value="maintain">Maintain / recomp</option>
+              <option value="cut">Cut</option>
+            </select>
+          </label>
+        </div>
+        <div class="out">
+          <div class="cell"><span class="v" id="o-protein">—</span><span class="mono">Protein / day</span></div>
+          <div class="cell"><span class="v" id="o-fat">—</span><span class="mono">Fat / day</span></div>
+          <div class="cell"><span class="v" id="o-pre">—</span><span class="mono">Pre-workout carbs</span></div>
+          <div class="cell"><span class="v" id="o-cal">—</span><span class="mono">Starting calories</span></div>
+          <div class="cell"><span class="v" id="o-carb">—</span><span class="mono">Carbs / day (rest)</span></div>
+          <div class="cell"><span class="v" id="o-rate">—</span><span class="mono">Scale target / week</span></div>
+        </div>
+        <p class="note" id="calc-note">Calories are a starting point (bodyweight × 15, then ± for the phase). Weigh yourself every morning, average the week, and adjust by 100–200 calories if the scale isn't moving the way you want.</p>
+      </div>
+
+      <h3>Lean bulk: adding size without losing your abs</h3>
+      <p>This is where I live most of the year. The goal is to gain slowly enough that most of it is muscle.</p>
+      <ul>
+        <li><strong>Protein</strong> at 1 g per lb. <strong>Fat</strong> at the higher end, 0.4–0.5 g per lb. Red meat does both of these for you.</li>
+        <li><strong>Calories</strong> at maintenance plus 200–300. Not plus 1,000. A "dirty bulk" just makes you fat and then you spend four months cutting it off.</li>
+        <li><strong>Scale target:</strong> about half a pound a week. If you're gaining faster than a pound a week, pull carbs back a little.</li>
+        <li>Keep your steps up. Walking is how you stay lean on a bulk.</li>
+      </ul>
+
+      <h3>Cutting: getting lean while keeping what you built</h3>
+      <ul>
+        <li><strong>Protein</strong> stays at 1 g per lb. This is non-negotiable when you're in a deficit.</li>
+        <li><strong>Fat</strong> drops to the low end, 0.3 g per lb. Pick leaner cuts, trim the fat off the steak.</li>
+        <li><strong>Calories</strong> at maintenance minus 300–500. Lose about a pound a week. Faster than that and you're losing muscle.</li>
+        <li><strong>Carbs</strong> go around training. Keep the pre-workout carbs. Cut the rest from the days you don't train.</li>
+        <li>Keep lifting heavy. The weights are the signal that tells your body to keep the muscle.</li>
+      </ul>
+
+      <h3>Maintain / recomp</h3>
+      <p>If you're new, or coming back after time off, you can build muscle and lose fat at the same time at maintenance calories with protein high. Eat at maintenance, lift hard, walk a lot, and let the mirror be the judge instead of the scale.</p>
+
+      <h3>Carb cycling, without the spreadsheet</h3>
+      <p>Carb cycling just means eating more carbs on the days you train and fewer on the days you don't. Your body uses carbs for the work you're asking of it, so give it more when the work is hard.</p>
+      <div class="grid2">
+        <div class="mini glass">
+          <span class="mono">Training days</span>
+          <h4>High carb</h4>
+          <p>Pre-workout carbs plus rice, potatoes, sourdough through the day. Fat a little lower.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Rest days</span>
+          <h4>Low carb</h4>
+          <p>Protein and fat stay. Carbs come down by roughly a third to a half. Eggs, meat, vegetables.</p>
+        </div>
+      </div>
+      <p>Over the week your average is the same as the calculator says. You just move the carbs to where they do work. On a cut this is how I keep training hard while losing fat. On a bulk it keeps me from gaining fat on the days I'm sitting around.</p>
+
+      <h3>Fast carbs before you train</h3>
+      <p>I don't take pre-workout and I don't drink caffeine. My pre-workout is 50–100 g of fast-digesting carbs 30 to 60 minutes before I lift. White rice, a potato, sourdough with honey, fruit, even a sports drink. You walk into the gym full of fuel and you don't crash at the end.</p>
+
+      <h3>Hydration</h3>
+      <p>You sweat while you sleep. Start the day with water, before coffee and before food. Then keep drinking through the day. A good target is around half your bodyweight in ounces, more if you're training or it's hot. Add salt to your food. Being even slightly dehydrated makes every set feel heavier than it is.</p>
+
+      <div class="callout glass">
+        <span class="mono">The short version</span>
+        <p>Protein 1 g per lb. Fat 0.3–0.5 g per lb depending on the phase. Fast carbs before you train, more carbs on training days, fewer on rest days. Red meat does most of the heavy lifting. Adjust by the scale weekly, not daily.</p>
+      </div>
+    </article>
+
+    <!-- ================= 04 MEALS ================= -->
+    <article class="chapter" id="meals" data-title="What I eat">
+      <span class="mono">Chapter 04</span>
+      <h2>What I <em class="italic accent">actually eat.</em></h2>
+
+      <p class="lead">I keep it simple and I keep it repeatable. These are the plates I eat most weeks. Nothing on this list takes more than twenty minutes to make.</p>
+
+      <h3>Breakfast</h3>
+      <div class="mini glass" style="margin-bottom:14px">
+        <span class="mono">Every morning</span>
+        <h4>Eggs, avocado, sourdough toast</h4>
+        <p>Three or four eggs, half an avocado, two slices of sourdough. Protein, fat and real carbs. Water before any of it.</p>
+      </div>
+
+      <h3>The main plates</h3>
+      <div class="grid2">
+        <div class="mini glass">
+          <span class="mono">Staple</span>
+          <h4>Jasmine rice + ground beef</h4>
+          <p>The meal I've eaten more than any other. Salt, pepper, maybe some garlic. Swap the beef for any protein you like.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Staple</span>
+          <h4>Steak + rice</h4>
+          <p>Any cut. Ribeye when I'm bulking, sirloin when I'm cutting. Rice on the side, pre-workout if it's a training day.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Staple</span>
+          <h4>Loaded potato</h4>
+          <p>Baked potato with ground beef and cheese in it. Heavy, filling, and perfect for a bulk.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Staple</span>
+          <h4>Red meat + potatoes</h4>
+          <p>Roast, burger patties, whatever's cheap this week. Potatoes any way you want them.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Occasional</span>
+          <h4>Raw oysters</h4>
+          <p>Zinc, minerals and protein. I eat them when I can get them fresh.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Always</span>
+          <h4>Red meat, daily</h4>
+          <p>Steak, beef, it all appetizes me. It's where my protein and my creatine come from.</p>
+        </div>
+      </div>
+
+      <h3>A training day, laid out</h3>
+      <div class="tablewrap">
+      <table>
+        <thead><tr><th>Time</th><th>Meal</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Wake</td><td>Big glass of water</td><td>You sweated all night.</td></tr>
+          <tr><td>Breakfast</td><td>Eggs, avocado, sourdough</td><td>Protein and fat to start the day.</td></tr>
+          <tr><td>Lunch</td><td>Jasmine rice + ground beef</td><td>Protein and carbs mid-day.</td></tr>
+          <tr><td>45 min pre-gym</td><td>50–100 g fast carbs</td><td>Rice, potato, fruit, honey. This is the pre-workout.</td></tr>
+          <tr><td>Train</td><td>Water</td><td>—</td></tr>
+          <tr><td>Dinner</td><td>Steak + rice, or loaded potato</td><td>The biggest meal, after the work.</td></tr>
+          <tr><td>Before bed</td><td>Eggs or leftover beef if protein is short</td><td>Hit the number.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>A rest day, laid out</h3>
+      <p>Same meals, less rice and potato. Breakfast stays. Lunch becomes beef and vegetables. Dinner is steak with a smaller side. Protein and fat stay where they are. That's carb cycling in practice.</p>
+
+      <div class="callout glass">
+        <span class="mono">Cooking tip</span>
+        <p>Cook three pounds of ground beef and a big pot of rice on Sunday. Portion it. Most of your week's lunches are done and you never have an excuse.</p>
+      </div>
+    </article>
+
+    <!-- ================= 05 SUPPLEMENTS ================= -->
+    <article class="chapter" id="supplements" data-title="Supplements">
+      <span class="mono">Chapter 05</span>
+      <h2>Supplements: what helps, <em class="italic">what doesn't.</em></h2>
+
+      <p class="lead">Six years in, I take nothing. No protein powder, no creatine, no pre-workout, no caffeine. Steroid and peptide free. I'm not telling you that to be preachy. I'm telling you so you know the body on the front of this site was built with food.</p>
+
+      <h3>Why I don't take any</h3>
+      <ul>
+        <li><strong>Protein</strong> comes from red meat and eggs. I hit 1 g per lb without trying.</li>
+        <li><strong>Creatine</strong> comes from red meat. A pound of beef has a few grams in it. Eat enough and you're covered.</li>
+        <li><strong>Pre-workout</strong> is 50–100 g of fast carbs 30–60 minutes before I train. I've never had a better one.</li>
+        <li><strong>Caffeine</strong> I skip entirely. My energy comes from sleep, food and water, and it doesn't crash at 3 pm.</li>
+      </ul>
+
+      <h3>If you want to take something, this is the list</h3>
+      <div class="grid2">
+        <div class="mini glass">
+          <span class="mono">Worth it</span>
+          <h4>Grass-fed protein powder</h4>
+          <p>Only if you can't hit your protein from food. One scoop fills the gap on a busy day. That's its whole job.</p>
+        </div>
+        <div class="mini glass">
+          <span class="mono">Worth it</span>
+          <h4>Black coffee with raw butter</h4>
+          <p>If you want caffeine, this is how I'd do it. No sugar, no syrup, no 300 mg pre-workout. One cup, in the morning.</p>
+        </div>
+      </div>
+
+      <h3>What I'd skip</h3>
+      <ul>
+        <li><strong>Pre-workout powders.</strong> Mostly caffeine and tingles. Eat carbs instead.</li>
+        <li><strong>Fat burners.</strong> They don't. A deficit and steps do.</li>
+        <li><strong>Mass gainers.</strong> Sugar in a tub. Eat a loaded potato.</li>
+        <li><strong>BCAAs.</strong> If you're eating enough protein these do nothing.</li>
+        <li><strong>Test boosters.</strong> Sleep, red meat, walking and not watching porn did more for me than any pill could.</li>
+      </ul>
+
+      <h3>On steroids and peptides</h3>
+      <p>A lot of the people you compare yourself to are on something. That's not a judgment, it's just true, and it's why comparing yourself to them is pointless. There's no need for any of it. Progress comes with time. I'm proof you can go from 125 to 185 without touching it.</p>
+
+      <div class="callout glass">
+        <span class="mono">One line</span>
+        <p>Food first. If you need a supplement to hit a number, use the simplest one that does it. Nothing else.</p>
+      </div>
+    </article>
+
+    <!-- ================= 06 MINDSET ================= -->
+    <article class="chapter" id="mindset" data-title="Mindset progression">
+      <span class="mono">Chapter 06</span>
+      <h2>Mindset <em class="italic accent">progression.</em></h2>
+
+      <p class="lead">Everything in this guide works if you show up. The problem is never the plan. It's the fourth week when nothing's changed yet, or the night you'd rather do anything else. This chapter is about how I built the mental framework that keeps me consistent.</p>
+
+      <h3>Stop comparing yourself to other people</h3>
+      <p>The guy next to you has been training for eight years. The guy on your feed is on gear. Most of the people you measure yourself against have either been doing this for a long time or are taking peptides or steroids, and you're comparing your month three to their year eight. There is no need for any of that. Progress comes with time. Compare yourself to the photo you took last month, not to anyone else.</p>
+
+      <div class="quote">You're not behind. You just started.</div>
+
+      <h3>Find a routine and keep it</h3>
+      <p>Decide once, then stop deciding. Same days, same time, same warm-up. I've warmed up the same way since high school football. The gym is not where you want to be making decisions; it's where you execute the ones you already made. When training is a fixed part of your day like brushing your teeth, motivation stops mattering.</p>
+
+      <h3>The habit I had to kill</h3>
+      <p>My biggest roadblock was porn. I used to watch it multiple times a day. One day it clicked: I was giving my energy to pixels on a screen, to women who didn't know I existed, and getting nothing back. I was looking at girls only in a sexual way and chasing them. I felt it pulling me somewhere dark. I'm being honest about this because nobody told me, and I think a lot of guys reading this are in the same spot.</p>
+      <p>When I cut it out, I got my attention back. I got my drive back. I started prioritizing myself and my health, and that's when the consistency showed up. If this is you, here's what worked for me:</p>
+      <ul>
+        <li><strong>Make it inconvenient.</strong> Phone out of the bedroom. Blockers on. No private browsing.</li>
+        <li><strong>Replace it, don't just remove it.</strong> The urge is a signal that you're bored, stressed or tired. Walk. Train. Cook. Call someone.</li>
+        <li><strong>Count days.</strong> A streak is motivating. Breaking one isn't a reason to quit, it's a reason to start day one again.</li>
+        <li><strong>Redirect the energy.</strong> The discipline it takes to stop is the same discipline that gets you to the gym. Use it.</li>
+      </ul>
+
+      <h3>The framework for maximum aesthetic progress</h3>
+      <ol>
+        <li><strong>Pick the goal for the next 12 weeks.</strong> Bulk or cut. Not both. Write it down.</li>
+        <li><strong>Make the plan boring.</strong> One split. The same meals. The same bedtime. Boring is what you can repeat.</li>
+        <li><strong>Track three things.</strong> Weight on the bar, weight on the scale, a photo every two weeks. Nothing else.</li>
+        <li><strong>Never miss twice.</strong> Missing one workout is life. Missing two in a row is a pattern. Break it before it starts.</li>
+        <li><strong>Judge every 12 weeks, not every day.</strong> The mirror lies day to day. It doesn't lie over three months.</li>
+      </ol>
+
+      <h3>When you want to quit</h3>
+      <p>You will. Usually around week four and week ten. That's when the newness is gone and the results haven't fully shown up yet. Know that it's coming, and that it's the exact point where most people stop and go back to 125 pounds. Go to the gym anyway. Do the warm-up. The rest follows.</p>
+
+      <div class="callout glass">
+        <span class="mono">What I tell myself</span>
+        <p>Nobody is coming to do this for you. That's not a bad thing. It means it's yours.</p>
+      </div>
+    </article>
+
+    <!-- ================= 07 CARDIO ================= -->
+    <article class="chapter" id="cardio" data-title="Cardio, steps & recovery">
+      <span class="mono">Chapter 07</span>
+      <h2>Cardio, steps &amp; <em class="italic">recovery.</em></h2>
+
+      <p class="lead">I'm going to say something you won't hear from most trainers: for building a lean, muscular body, jogging is a waste of your time. Walk, or sprint.</p>
+
+      <h3>Why I stopped jogging</h3>
+      <p>Long, slow jogging burns a few calories and leaves you drained for the thing that actually changes your body, which is lifting. In my experience, months of steady jogging worked against me: I felt flat, my lifts stalled, and I looked no better for it. I believe it was dragging my hormones and recovery down. I'm not a doctor, but the day I stopped jogging and started walking and sprinting, everything got better.</p>
+
+      <h3>Walk 10,000 to 30,000 steps a day</h3>
+      <p>This is the cardio. It burns fat without eating into recovery, it keeps you lean on a bulk, it clears your head, and it's free. When I bumped my steps up I felt like my energy and drive went through the roof. Ten thousand is the floor. On a cut I push toward twenty or thirty.</p>
+      <ul>
+        <li>Walk first thing in the morning after your water. Sun on your face.</li>
+        <li>Walk after meals. Ten minutes after dinner does more than you'd think.</li>
+        <li>Take calls walking. Park far. Take the stairs. It adds up fast.</li>
+      </ul>
+
+      <h3>Sprint once or twice a week</h3>
+      <p>Sprinting builds muscle, especially in your legs and glutes, and it's over in fifteen minutes. On a rest day or after a light session:</p>
+      <ol>
+        <li>Warm up with your normal dynamic routine.</li>
+        <li>6–10 sprints of 60–100 meters, at 80–90% effort. Not all-out on the first one.</li>
+        <li>Walk back fully between each. Rest is the point.</li>
+        <li>Walk home.</li>
+      </ol>
+
+      <h3>Sleep is the supplement</h3>
+      <p>Seven to nine hours. Same bedtime every night. Phone out of the room, which also helps with Chapter 06. Every bit of muscle you build is built while you're asleep. If you're cutting sleep to fit in more training you have it backwards.</p>
+
+      <h3>Rest days</h3>
+      <p>Rest days are walking days. You still eat your protein. You still drink your water. You keep carbs lower. You don't sit on the couch all day feeling guilty, and you don't sneak in a seventh gym session. Recovery is where the growth happens.</p>
+    </article>
+
+    <!-- ================= 08 WISH ================= -->
+    <article class="chapter" id="wish" data-title="What I wish I knew">
+      <span class="mono">Chapter 08</span>
+      <h2>What I wish <em class="italic accent">I knew.</em></h2>
+
+      <p class="lead">If I could hand my 125-pound self one page, it would be this one.</p>
+
+      <ol class="tips">
+        <li>
+          <h4>Do not compare yourself to other people.</h4>
+          <p>Most of them have been in the gym or the fitness industry for years. A lot of them take peptides or steroids. There's no need for that. Progress comes with time.</p>
+        </li>
+        <li>
+          <h4>Form over weight.</h4>
+          <p>Without proper form you can't directly target the muscle and you'll hurt yourself. Perfect your form as you progressively increase the weight. Not before, not after. As.</p>
+        </li>
+        <li>
+          <h4>Train every muscle at least twice a week.</h4>
+          <p>I trained each muscle once a week and after a couple of years I stopped seeing any progress at all. Twice a week increased my size and strength by a lot. This is the biggest training change I made.</p>
+        </li>
+        <li>
+          <h4>Find a routine and keep it.</h4>
+          <p>Same warm-up since high school football. Heaviest workouts first, then the volume work. When the routine is automatic you never skip it.</p>
+        </li>
+        <li>
+          <h4>Start your day hydrating.</h4>
+          <p>Your body sweats while you sleep. Water first, before anything else.</p>
+        </li>
+        <li>
+          <h4>10+ reps is too much.</h4>
+          <p>Nobody in the gym will tell you this. If you want to gain muscle and strength, do 3–8 reps on the lifts that matter.</p>
+        </li>
+        <li>
+          <h4>Get strong on the core lifts.</h4>
+          <p>Squat, deadlift, bench, overhead press, rows, pull-ups. Everything else is a detail.</p>
+        </li>
+        <li>
+          <h4>Jogging is a waste. Walk or sprint.</h4>
+          <p>Walk 10–30k steps a day. Sprint once or twice a week. Your energy, your physique and in my experience your drive all go up.</p>
+        </li>
+        <li>
+          <h4>You are stronger than you think.</h4>
+          <p>I was doing high weight for high reps. When I increased the weight and went to failure I found out I'd been limiting myself. Find your real limit, on purpose, once a week.</p>
+        </li>
+        <li>
+          <h4>Nutrition is the number one thing.</h4>
+          <p>Prioritize red meat. Eat enough protein and fat. Put your carbs around training. I'd trade every supplement on earth for this.</p>
+        </li>
+        <li>
+          <h4>Cycle your carbs.</h4>
+          <p>More carbs on training days, fewer on rest days. That's it. It keeps you lean on a bulk and strong on a cut.</p>
+        </li>
+        <li>
+          <h4>Kill the thing that's draining you.</h4>
+          <p>For me it was porn. For you it might be something else. Whatever is quietly taking your energy every day is costing you more than any workout can give back.</p>
+        </li>
+      </ol>
+    </article>
+
+    <!-- ================= 09 TWELVE WEEKS ================= -->
+    <article class="chapter" id="twelve" data-title="Your first 12 weeks">
+      <span class="mono">Chapter 09</span>
+      <h2>Your first <em class="italic">12 weeks.</em></h2>
+
+      <p class="lead">Here's how I'd put it all together if you were starting Monday. Keep it exactly this simple.</p>
+
+      <div class="week glass">
+        <span class="mono">Before Monday</span>
+        <h4>Set it up once</h4>
+        <p>Pick your split by the days you can really train. Run the calculator. Buy the groceries from Chapter 04. Put the phone outside the bedroom. Take a front and side photo.</p>
+      </div>
+      <div class="week glass">
+        <span class="mono">Weeks 1–4</span>
+        <h4>Learn the lifts, build the routine</h4>
+        <p>Weights are moderate. The goal is to not miss a session, nail your warm-up, and get your form right on the core lifts. Hit protein every day. Ten thousand steps. Don't judge anything yet.</p>
+      </div>
+      <div class="week glass">
+        <span class="mono">Weeks 5–8</span>
+        <h4>Go heavy</h4>
+        <p>Main lifts drop to 3–5 reps. Last set to failure. Add weight when you hit the top of the range. This is where you find out you're stronger than you think. Photo at week 6.</p>
+      </div>
+      <div class="week glass">
+        <span class="mono">Weeks 9–12</span>
+        <h4>Dial the diet</h4>
+        <p>Now that training is automatic, tighten the nutrition. Carb cycle. Adjust calories by the scale. Add one sprint session a week. Week 12: photos, compare to week 0, decide the next 12 weeks.</p>
+      </div>
+
+      <h3>What to expect</h3>
+      <p>In 12 weeks, if you don't miss, you'll be noticeably stronger on every core lift and you'll see it in the photos. You won't look like a different person yet. I didn't at 12 weeks either. It took me five years to go from 125 to 185, and the first 12 weeks were just the proof that it was working. That's all you need. Proof, then repeat.</p>
+
+      <div class="end">
+        <h2>Progress comes <em class="italic accent">with time.</em></h2>
+        <p>Thanks for buying this. Go lift. — Amari</p>
+      </div>
+
+      <div class="callout glass warn" style="margin-top:50px">
+        <span class="mono">Reminder</span>
+        <p>This guide is personal experience and general information, not medical advice. Results vary. Consult a qualified professional before starting any training or nutrition program.</p>
+      </div>
+    </article>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Progress bar
+  var bar = document.getElementById('bar');
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Active chapter in TOC + header label
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
+  var reading = document.getElementById('reading');
+  function setActive(id) {
+    links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + id); });
+    var ch = document.getElementById(id);
+    if (ch && reading) reading.textContent = ch.getAttribute('data-title') || '';
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+    chapters.forEach(function (c) { io.observe(c); });
+  }
+
+  // Mobile menu
+  var menu = document.getElementById('menu');
+  var toc = document.getElementById('toc');
+  if (menu) {
+    menu.addEventListener('click', function () {
+      var open = toc.classList.toggle('open');
+      menu.setAttribute('aria-expanded', String(open));
+      menu.textContent = open ? 'Close' : 'Chapters';
+    });
+    links.forEach(function (a) {
+      a.addEventListener('click', function () {
+        toc.classList.remove('open');
+        menu.setAttribute('aria-expanded', 'false');
+        menu.textContent = 'Chapters';
+      });
+    });
+  }
+
+  // Macro calculator
+  var bw = document.getElementById('bw');
+  var phase = document.getElementById('phase');
+  var out = {
+    protein: document.getElementById('o-protein'),
+    fat: document.getElementById('o-fat'),
+    pre: document.getElementById('o-pre'),
+    cal: document.getElementById('o-cal'),
+    carb: document.getElementById('o-carb'),
+    rate: document.getElementById('o-rate')
+  };
+  function setVal(el, text) {
+    if (!reduce) { el.classList.add('flash'); setTimeout(function () { el.classList.remove('flash'); }, 150); }
+    el.textContent = text;
+  }
+  function calc() {
+    var w = Math.max(80, Math.min(400, Number(bw.value) || 0));
+    var p = phase.value;
+    var proteinLo = Math.round(w * 0.8), proteinHi = Math.round(w * 1.0);
+    var fatLo, fatHi, calAdj, rate;
+    if (p === 'cut') { fatLo = 0.3; fatHi = 0.4; calAdj = -400; rate = '−1 lb'; }
+    else if (p === 'gain') { fatLo = 0.4; fatHi = 0.5; calAdj = 250; rate = '+0.5 lb'; }
+    else { fatLo = 0.35; fatHi = 0.45; calAdj = 0; rate = '±0 lb'; }
+    var fLo = Math.round(w * fatLo), fHi = Math.round(w * fatHi);
+    var calories = Math.round((w * 15 + calAdj) / 10) * 10;
+    var protMid = Math.round(w * 0.9);
+    var fatMid = Math.round(w * (fatLo + fatHi) / 2);
+    var carbs = Math.max(0, Math.round((calories - protMid * 4 - fatMid * 9) / 4));
+    setVal(out.protein, proteinLo + '–' + proteinHi + ' g');
+    setVal(out.fat, fLo + '–' + fHi + ' g');
+    setVal(out.pre, '50–100 g');
+    setVal(out.cal, calories.toLocaleString());
+    setVal(out.carb, '~' + carbs + ' g');
+    setVal(out.rate, rate);
+  }
+  if (bw && phase) {
+    bw.addEventListener('input', calc);
+    phase.addEventListener('change', calc);
+    calc();
+  }
+})();
+</script>
+</body>
+</html>

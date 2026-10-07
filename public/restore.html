@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Restore access — The Amari Fitness Blueprint</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0b0a">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
+  <style>
+    .center { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: 40px 20px; }
+    .card { width: min(520px, 100%); padding: 48px 44px; display: flex; flex-direction: column; gap: 16px; }
+    .card h1 { font-family: var(--font-serif); font-size: 42px; letter-spacing: -0.02em; }
+    .card p { color: var(--ink-2); margin: 0; }
+    form { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+    .state { font-size: 14px; color: var(--warm); border: 1px solid rgba(224,181,138,.35); background: rgba(224,181,138,.08); border-radius: 12px; padding: 12px 14px; }
+    .back { font-size: 14px; color: var(--muted); margin-top: 6px; }
+    .back a { color: var(--ink-2); border-bottom: 1px solid var(--line-strong); }
+    @media (max-width: 480px) { .card { padding: 36px 26px; } }
+  </style>
+</head>
+<body>
+<div class="atmosphere" aria-hidden="true"><div class="glow a"></div><div class="glow b"></div><div class="grain"></div></div>
+<main class="center">
+  <div class="card glass">
+    <p class="mono">Already bought the blueprint?</p>
+    <h1>Restore your <em class="italic accent">access.</em></h1>
+    <p>Enter the email you used at checkout and we'll open the guide on this device.</p>
+    <p class="state" id="state" hidden></p>
+    <form method="post" action="/api/restore">
+      <input class="field" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+      <button class="btn primary block" type="submit"><span>Open the guide</span><span class="arrow">→</span></button>
+    </form>
+    <p class="back">Haven't bought it yet? <a href="/#pricing">Get the blueprint for $30</a>.</p>
+  </div>
+</main>
+<script>
+  (function () {
+    var s = new URLSearchParams(location.search).get('state');
+    var el = document.getElementById('state');
+    var msgs = {
+      invalid: 'That doesn\'t look like an email address.',
+      notfound: 'We couldn\'t find a purchase under that email. Check the receipt Stripe emailed you for the exact address.',
+      error: 'Something went wrong looking that up. Please try again in a minute.'
+    };
+    if (s && msgs[s]) { el.textContent = msgs[s]; el.hidden = false; }
+  })();
+</script>
+</body>
+</html>

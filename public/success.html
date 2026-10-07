@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unlocking your blueprint</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0b0a">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
+  <style>
+    .center { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: 40px 20px; }
+    .card { width: min(560px, 100%); padding: 48px 44px; text-align: center; display: flex; flex-direction: column; gap: 18px; align-items: center; }
+    .card h1 { font-family: var(--font-serif); font-size: 44px; letter-spacing: -0.02em; }
+    .card p { color: var(--ink-2); margin: 0; max-width: 42ch; }
+    .spinner { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line-strong); border-top-color: var(--accent); animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="atmosphere" aria-hidden="true"><div class="glow a"></div><div class="glow b"></div><div class="grain"></div></div>
+<main class="center">
+  <div class="card glass">
+    <div id="loading">
+      <div class="spinner" style="margin: 0 auto 22px"></div>
+      <p class="mono" style="margin-bottom:14px">Payment received</p>
+      <h1>Opening your <em class="italic accent">blueprint.</em></h1>
+      <p style="margin-top:14px">One second while we confirm with Stripe.</p>
+    </div>
+    <div id="problem" hidden>
+      <p class="mono" style="margin-bottom:14px">Hmm</p>
+      <h1 id="problem-title">We couldn't confirm that.</h1>
+      <p id="problem-text" style="margin-top:14px"></p>
+      <div class="actions">
+        <a class="btn primary" href="/restore"><span>Restore access</span><span class="arrow">→</span></a>
+        <a class="btn" href="/#pricing">Back to the site</a>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var sid = q.get('session_id');
+    var state = q.get('state');
+    var loading = document.getElementById('loading');
+    var problem = document.getElementById('problem');
+    var text = document.getElementById('problem-text');
+    var title = document.getElementById('problem-title');
+    var msgs = {
+      unpaid: 'Stripe says this checkout hasn\'t been paid yet. If you just paid, wait a moment and refresh. Otherwise head back and try again.',
+      invalid: 'That link didn\'t check out. If you already bought the blueprint, restore access with the email you used.',
+      missing: 'This page needs a checkout to confirm. If you already bought the blueprint, restore access with the email you used.',
+      server: 'The site isn\'t fully configured yet (missing access secret). The owner needs to set ACCESS_TOKEN_SECRET.'
+    };
+    if (sid && !state) {
+      location.replace('/api/unlock?session_id=' + encodeURIComponent(sid));
+      return;
+    }
+    loading.hidden = true;
+    problem.hidden = false;
+    if (state === 'server') title.textContent = 'Almost there.';
+    text.textContent = msgs[state] || msgs.missing;
+  })();
+</script>
+</body>
+</html>
