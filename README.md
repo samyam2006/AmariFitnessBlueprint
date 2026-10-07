@@ -64,12 +64,13 @@ To preview the guide yourself without paying, visit
 ## Run locally
 
 ```
-cp .env.example .env     # fill in at least ACCESS_TOKEN_SECRET and GUIDE_PREVIEW_SECRET
 npm run dev              # http://localhost:3000
 ```
 
-Without a Stripe key the checkout buttons show a "not connected yet" notice
-instead of crashing. Use the preview link above to read the guide locally.
+No setup needed. The dev server fills in local-only defaults, prints the
+website link and a preview link for the guide, and the checkout buttons show a
+"not connected yet" notice until you add a Stripe key. To test real checkout
+locally, copy `.env.example` to `.env` and add `STRIPE_SECRET_KEY`.
 
 ## The intro
 

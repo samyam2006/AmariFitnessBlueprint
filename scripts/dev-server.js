@@ -23,6 +23,11 @@ if (existsSync(envPath)) {
   }
 }
 
+// Local-only defaults so the site runs with zero setup. Production (Vercel)
+// must set these as real environment variables.
+if (!process.env.ACCESS_TOKEN_SECRET) process.env.ACCESS_TOKEN_SECRET = 'local-dev-only-secret-not-for-production';
+if (!process.env.GUIDE_PREVIEW_SECRET) process.env.GUIDE_PREVIEW_SECRET = 'preview';
+
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -82,5 +87,15 @@ http.createServer(async (req, res) => {
   }
   return serveStatic(pathname, res);
 }).listen(port, () => {
-  console.log(`Amari Fitness Blueprint dev server → http://localhost:${port}`);
+  console.log('');
+  console.log('  Amari Fitness Blueprint is running.');
+  console.log('');
+  console.log(`  Website:         http://localhost:${port}`);
+  console.log(`  Read the guide:  http://localhost:${port}/api/unlock?preview=${process.env.GUIDE_PREVIEW_SECRET}`);
+  console.log('');
+  console.log(process.env.STRIPE_SECRET_KEY
+    ? '  Stripe key found: checkout is live.'
+    : '  No Stripe key set: checkout buttons show a "not connected" notice. That is fine for previewing.');
+  console.log('');
+  console.log('  Press Ctrl+C to stop.');
 });
