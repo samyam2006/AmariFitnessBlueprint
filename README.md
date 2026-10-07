@@ -71,6 +71,16 @@ npm run dev              # http://localhost:3000
 Without a Stripe key the checkout buttons show a "not connected yet" notice
 instead of crashing. Use the preview link above to read the guide locally.
 
+## The intro
+
+First-time visitors see a five-second intro (Begin button, then four beats with
+click sounds, then the page wipes in). It runs once per browser session, is
+skipped for people who prefer reduced motion, and has a Skip button. The sound
+is synthesized in the browser, so there are no audio files to host. Browsers
+only allow audio after a tap, which is why it starts from the Begin button.
+Everything lives in `public/js/intro.js` and the intro section of
+`public/css/landing.css`.
+
 ## Editing content
 
 - Landing page copy: `public/index.html`
