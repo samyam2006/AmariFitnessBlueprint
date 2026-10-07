@@ -6,6 +6,7 @@
 // Usage:  node scripts/dev-server.js   (reads .env if present)
 
 import http from 'node:http';
+import os from 'node:os';
 import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -92,6 +93,12 @@ http.createServer(async (req, res) => {
   console.log('');
   console.log(`  Website:         http://localhost:${port}`);
   console.log(`  Read the guide:  http://localhost:${port}/api/unlock?preview=${process.env.GUIDE_PREVIEW_SECRET}`);
+  const lan = Object.values(os.networkInterfaces()).flat().filter((i) => i && i.family === 'IPv4' && !i.internal).map((i) => i.address);
+  if (lan.length) {
+    console.log('');
+    console.log('  On a phone on the same Wi-Fi, open:');
+    lan.forEach((ip) => console.log(`                   http://${ip}:${port}`));
+  }
   console.log('');
   console.log(process.env.STRIPE_SECRET_KEY
     ? '  Stripe key found: checkout is live.'
