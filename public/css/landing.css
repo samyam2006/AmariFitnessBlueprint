@@ -142,34 +142,6 @@
   100% { box-shadow: 0 0 0 12px rgba(185, 207, 154, 0); }
 }
 
-.scroll-hint {
-  position: absolute;
-  left: 50%;
-  bottom: 28px;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  opacity: 0;
-  animation: fade-in 1s var(--ease) 1.6s forwards;
-}
-.scroll-hint span {
-  display: block;
-  width: 40px;
-  height: 1px;
-  background: var(--line-strong);
-  position: relative;
-  overflow: hidden;
-}
-.scroll-hint span::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--ink);
-  transform: translateX(-100%);
-  animation: slide 2.2s var(--ease) infinite;
-}
-@keyframes slide { to { transform: translateX(100%); } }
 @keyframes fade-in { to { opacity: 1; } }
 
 @media (max-width: 960px) {
@@ -177,7 +149,6 @@
   .hero-grid { grid-template-columns: 1fr; gap: 56px; }
   .hero-visual { justify-self: start; width: min(100%, 340px); margin-left: 26px; }
   .chip.now { right: -14px; top: -18px; }
-  .scroll-hint { display: none; }
 }
 @media (max-width: 480px) {
   .hero-visual { width: calc(100% - 40px); margin-left: 20px; }
@@ -185,29 +156,22 @@
   .chip.now { right: -18px; top: -16px; }
 }
 
-/* marquee */
+/* one line */
 
-.marquee {
-  overflow: hidden;
+.oneline {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  padding: 16px 0;
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  padding: 44px 0;
 }
-.marquee .track {
-  display: flex;
-  gap: 28px;
-  width: max-content;
-  animation: marquee 48s linear infinite;
-  font-family: var(--font-serif);
-  font-size: 20px;
+.oneline .wrap { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 40px; }
+.oneline p {
+  margin: 0;
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.3;
   color: var(--ink-2);
-  white-space: nowrap;
+  max-width: 34em;
+  letter-spacing: -0.01em;
 }
-.marquee .track i { color: var(--accent); font-style: normal; }
-.marquee:hover .track { animation-play-state: paused; }
-@keyframes marquee { to { transform: translateX(-50%); } }
 
 /* stats */
 
@@ -569,5 +533,4 @@
 /* Hold the page's own entrance animations until the intro is done */
 .intro-pending body { overflow: hidden; }
 .intro-pending .word-up > span,
-.intro-pending .nav .bar,
-.intro-pending .scroll-hint { animation-play-state: paused; }
+.intro-pending .nav .bar { animation-play-state: paused; }
