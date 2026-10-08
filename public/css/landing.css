@@ -51,21 +51,31 @@
 .hero-visual {
   position: relative;
   justify-self: end;
-  width: min(100%, 380px);
+  width: min(100%, 470px);
+}
+
+.pair {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0 40px;
 }
 
 .polaroid {
-  padding: 14px 14px 18px;
-  border-radius: 26px;
-  transform: rotate(-2deg);
-  transition: transform 0.9s var(--ease);
+  padding: 12px 12px 16px;
+  border-radius: 24px;
+  flex: 0 0 57%;
+  width: 57%;
+  transition: transform 0.9s var(--ease), z-index 0s;
 }
-.polaroid:hover { transform: rotate(0deg) translateY(-4px); }
+.polaroid.before { transform: rotate(-3deg); z-index: 1; }
+.polaroid.after { margin-left: -14%; margin-top: 72px; transform: rotate(2.5deg); z-index: 2; }
+.polaroid:hover { transform: rotate(0deg) translateY(-4px); z-index: 3; }
 
 .polaroid .photo {
   position: relative;
   aspect-ratio: 3 / 4;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   background: linear-gradient(160deg, #1a1a18, #0f0f0e);
 }
@@ -77,6 +87,7 @@
   filter: saturate(0.88) contrast(1.04);
   transition: transform 1.2s var(--ease), filter 0.6s var(--ease);
 }
+.polaroid.after .photo img { object-position: center 32%; }
 .polaroid:hover .photo img { transform: scale(1.03); filter: saturate(1) contrast(1.04); }
 
 .polaroid .photo-fallback {
@@ -94,11 +105,13 @@
 
 .polaroid figcaption {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 16px 6px 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 14px 4px 0;
 }
-.serif.big { font-size: 28px; line-height: 1; }
+.polaroid figcaption .mono { font-size: 10.5px; }
+.serif.big { font-size: 24px; line-height: 1; white-space: nowrap; }
 
 .chip {
   position: absolute;
@@ -109,21 +122,16 @@
   gap: 4px;
   animation: float 7s ease-in-out infinite;
 }
-.chip.now {
-  right: -34px;
-  top: -22px;
-  transform: rotate(3deg);
-  animation-delay: -2s;
-}
 .chip.nat {
-  left: -26px;
-  bottom: 42px;
+  left: -22px;
+  bottom: 54px;
   flex-direction: row;
   align-items: center;
   gap: 10px;
   font-size: 13px;
   padding: 10px 16px;
   animation-delay: -4s;
+  z-index: 4;
 }
 .chip .dot {
   width: 8px; height: 8px;
@@ -141,19 +149,20 @@
   0% { box-shadow: 0 0 0 0 rgba(185, 207, 154, 0.5); }
   100% { box-shadow: 0 0 0 12px rgba(185, 207, 154, 0); }
 }
-
 @keyframes fade-in { to { opacity: 1; } }
 
 @media (max-width: 960px) {
   .hero { padding-top: 120px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 56px; }
-  .hero-visual { justify-self: start; width: min(100%, 340px); margin-left: 26px; }
-  .chip.now { right: -14px; top: -18px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { justify-self: start; width: min(100%, 440px); }
 }
 @media (max-width: 480px) {
-  .hero-visual { width: calc(100% - 40px); margin-left: 20px; }
-  .chip.nat { left: -18px; bottom: 36px; }
-  .chip.now { right: -18px; top: -16px; }
+  .hero-visual { width: 100%; }
+  .polaroid { padding: 10px 10px 12px; flex-basis: 54%; width: 54%; }
+  .polaroid.after { margin-top: 48px; margin-left: -12%; }
+  .pair { padding-right: 16px; }
+  .serif.big { font-size: 20px; }
+  .chip.nat { left: -8px; bottom: 46px; }
 }
 
 /* one line */
