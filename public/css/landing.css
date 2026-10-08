@@ -62,6 +62,7 @@
 }
 
 .polaroid {
+  margin: 0;
   padding: 12px 12px 16px;
   border-radius: 24px;
   flex: 0 0 57%;
@@ -158,9 +159,9 @@
 }
 @media (max-width: 480px) {
   .hero-visual { width: 100%; }
-  .polaroid { padding: 10px 10px 12px; flex-basis: 54%; width: 54%; }
+  .polaroid { padding: 10px 10px 12px; flex-basis: 56%; width: 56%; }
   .polaroid.after { margin-top: 48px; margin-left: -12%; }
-  .pair { padding-right: 16px; }
+  .pair { padding-right: 8px; }
   .serif.big { font-size: 20px; }
   .chip.nat { left: -8px; bottom: 46px; }
 }
