@@ -82,6 +82,20 @@ only allow audio after a tap, which is why it starts from the Begin button.
 Everything lives in `public/js/intro.js` and the intro section of
 `public/css/landing.css`.
 
+## Giving Amari (or anyone) free access
+
+Send them the preview link: your site address followed by
+`/api/unlock?preview=YOUR_GUIDE_PREVIEW_SECRET`. Opening it once on a device
+unlocks the guide there for a year. Or, in Stripe, create a 100%-off promotion
+code and let them "buy" it at checkout for $0; the site accepts that too.
+
+## Share image
+
+`public/assets/og.png` is the card that shows when the link is texted or posted.
+Once you have a real domain, change the two `og:image` / `twitter:image` meta
+tags in `public/index.html` from `/assets/og.png` to the full URL, e.g.
+`https://yourdomain.com/assets/og.png`, because some apps need an absolute link.
+
 ## Editing content
 
 - Landing page copy: `public/index.html`

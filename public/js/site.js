@@ -51,6 +51,43 @@
     });
   });
 
+  // Split finder
+  const finder = document.getElementById('finder-result');
+  if (finder) {
+    const picks = {
+      2: ['Full body, 2× a week', 'Every session has a squat, a hinge, a push and a pull. You still hit everything twice.'],
+      3: ['Full body, 3× a week', 'The fastest way to get strong on the core lifts when you\'re short on days.'],
+      4: ['Upper / Lower repeat', 'Clean two-a-week frequency with lots of recovery, so the big lifts keep climbing.'],
+      5: ['PPL × Upper / Lower', 'The one I\'d hand most people. Focused push, pull and leg days, then everything a second time.'],
+      6: ['PPL × Arnold', 'Six days, two angles on every muscle. Only if recovery and food are handled.'],
+    };
+    document.querySelectorAll('.days button').forEach((b) => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.days button').forEach((x) => x.classList.toggle('on', x === b));
+        const [name, why] = picks[b.dataset.days];
+        finder.classList.remove('swap');
+        void finder.offsetWidth;
+        finder.innerHTML = `<span class="mono">Your split</span><p class="serif">${name}</p><span class="why">${why} The full week layout is in Chapter 01.</span>`;
+        finder.classList.add('swap');
+      });
+    });
+  }
+
+  // Sticky buy bar on phones, after the hero scrolls away
+  const buybar = document.getElementById('buybar');
+  const hero = document.querySelector('.hero');
+  const pricing = document.getElementById('pricing');
+  if (buybar && hero && 'IntersectionObserver' in window) {
+    let heroVisible = true, pricingVisible = false;
+    const update = () => {
+      const show = !heroVisible && !pricingVisible;
+      buybar.classList.toggle('show', show);
+      buybar.setAttribute('aria-hidden', String(!show));
+    };
+    new IntersectionObserver((e) => { heroVisible = e[0].isIntersecting; update(); }, { threshold: 0.15 }).observe(hero);
+    if (pricing) new IntersectionObserver((e) => { pricingVisible = e[0].isIntersecting; update(); }, { threshold: 0.2 }).observe(pricing);
+  }
+
   // Year
   const y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();

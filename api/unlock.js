@@ -20,7 +20,8 @@ export default async function handler(req, res) {
   } else if (sessionId) {
     try {
       const session = await retrieveCheckoutSession(sessionId);
-      if (session.payment_status !== 'paid') {
+      // 'no_payment_required' happens when a 100% promo code is used.
+      if (session.payment_status !== 'paid' && session.payment_status !== 'no_payment_required') {
         return redirect(res, `${origin}/success?state=unpaid`, 303);
       }
       ref = session.id;

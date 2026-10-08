@@ -8,6 +8,13 @@
   <meta property="og:title" content="The Amari Fitness Blueprint">
   <meta property="og:description" content="125 lbs to 185 lbs. No supplements. No shortcuts. The full method for $30.">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Amari Fitness Blueprint">
+  <meta name="twitter:description" content="125 lbs to 185 lbs. No supplements. No shortcuts. The full method for $30.">
+  <meta name="twitter:image" content="/assets/og.png">
   <meta name="theme-color" content="#0b0b0a">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <script>
@@ -118,10 +125,6 @@
               <span class="serif big"><span class="count" data-count="185">125</span> lbs</span>
             </figcaption>
           </figure>
-          <div class="chip glass nat">
-            <span class="dot"></span>
-            <span>100% natural</span>
-          </div>
         </div>
       </div>
     </div>
@@ -299,6 +302,25 @@
         </div>
       </div>
 
+      <div class="finder glass spot" data-reveal>
+        <div class="finder-left">
+          <span class="mono">Find your split</span>
+          <h3 class="serif">How many days a week can you <em class="italic accent">actually</em> train?</h3>
+          <p>Not how many you wish. The one you never miss beats the one you do half of.</p>
+          <div class="days" role="group" aria-label="Days per week">
+            <button type="button" data-days="2">2</button>
+            <button type="button" data-days="3">3</button>
+            <button type="button" data-days="4">4</button>
+            <button type="button" data-days="5">5</button>
+            <button type="button" data-days="6">6</button>
+          </div>
+        </div>
+        <div class="finder-result" id="finder-result" aria-live="polite">
+          <span class="mono">Pick a number</span>
+          <p class="serif">Your split shows up here.</p>
+        </div>
+      </div>
+
       <div class="locked glass" data-reveal>
         <ul class="locked-list" aria-hidden="true">
           <li><span class="mono">01</span> The 3–8 rep rule nobody in the gym will tell you</li>
@@ -408,6 +430,13 @@
   </section>
 
 </main>
+
+<div class="buybar glass" id="buybar" aria-hidden="true">
+  <span class="serif">$30 <em class="muted">· one-time</em></span>
+  <form method="post" action="/api/checkout" class="inline-form">
+    <button class="btn primary small" type="submit"><span>Get the blueprint</span><span class="arrow">→</span></button>
+  </form>
+</div>
 
 <footer>
   <div class="wrap">
