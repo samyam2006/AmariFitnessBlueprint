@@ -100,6 +100,10 @@
     let msg = '';
     if (q.get('locked')) msg = 'The guide is for buyers only. Grab it below and you\'ll be reading in under a minute.';
     else if (q.get('error') === 'not-configured') msg = 'Checkout isn\'t connected yet. Add your Stripe keys to turn it on.';
+    else if (q.get('error') === 'pk-key') msg = 'Setup issue: the Stripe key in Vercel is the publishable key (pk_...). It needs the secret key (sk_...).';
+    else if (q.get('error') === 'bad-key') msg = 'Setup issue: Stripe rejected the key. Check for a typo or missing characters, then redeploy.';
+    else if (q.get('error') === 'not-activated') msg = 'Setup issue: this Stripe account isn\'t activated for live payments yet. Finish activation in the Stripe dashboard.';
+    else if (q.get('error') === 'bad-price') msg = 'Setup issue: the STRIPE_PRICE_ID in Vercel doesn\'t exist in this Stripe account.';
     else if (q.get('error')) msg = 'Something went wrong starting checkout. Please try again.';
     if (msg) {
       notice.textContent = msg;
